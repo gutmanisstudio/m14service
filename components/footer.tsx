@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { company, nav } from "@/lib/content";
+
+const footerLinks = [...nav, { href: "/faq", label: "FAQ" }];
 
 export default function Footer() {
   return (
@@ -9,8 +12,8 @@ export default function Footer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/logo.jpg" alt="M14service" className="mb-5 h-12 w-12 rounded-md md:h-14 md:w-14" />
             <p className="max-w-[320px] text-[0.88rem] leading-[1.75] text-white/50">
-              Carpet, hard floor, upholstery and high-level cleaning for homes,
-              offices, factories and warehouses across the UK.
+              Home, office, post-renovation and end-of-tenancy cleaning across
+              the UK. Fully equipped teams, transparent quotes.
             </p>
           </div>
 
@@ -19,14 +22,14 @@ export default function Footer() {
               Navigation
             </div>
             <ul className="flex flex-col gap-2.5">
-              {nav.map((l) => (
+              {footerLinks.map((l) => (
                 <li key={l.href}>
-                  <a
+                  <Link
                     href={l.href}
                     className="text-[0.9rem] text-white/70 transition-colors hover:text-white"
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

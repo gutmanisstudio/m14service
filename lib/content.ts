@@ -262,31 +262,58 @@ export const reviews = [
   },
 ];
 
+// FAQ entries — bracketed [TODO ...] strings need client confirmation
+// before publishing. Don't ship invented commitments.
 export const faqs = [
   {
     q: "Do you offer free quotes?",
     a:
-      "Yes. Tell us the space and the job — we'll come back with a quote. For larger jobs we can arrange a site visit.",
+      "Yes — tell us the space and the job, we'll come back fast. For larger jobs we can arrange a site visit before quoting.",
   },
   {
     q: "What areas do you cover?",
     a:
-      "[TODO: confirm coverage area — e.g. Manchester, Greater Manchester, North West, all UK.]",
+      "[TODO: confirm coverage area — e.g. Manchester, Greater Manchester, North West, nationwide?]",
   },
   {
     q: "Are you insured?",
     a:
-      "[TODO: confirm public liability cover and any industry certifications before publishing.]",
+      "[TODO: confirm public liability cover (provider + amount) and any industry certifications before publishing.]",
+  },
+  {
+    q: "How much does a clean cost?",
+    a:
+      "[TODO: confirm pricing model — fixed per service / hourly / tiered — or leave it lead-collect-only via the quote form.]",
   },
   {
     q: "Do you bring your own equipment and products?",
     a:
-      "Yes — every job is fully equipped. Eco-friendly product options available on request.",
+      "Yes — every job arrives fully equipped. If you have specific products you'd prefer we use, just let us know in advance.",
+  },
+  {
+    q: "Do I need to be home during the clean?",
+    a:
+      "Not necessarily. You're welcome to be there, or you can leave a key or arrange access another way — whatever works for you.",
+  },
+  {
+    q: "Are pets and kids in the home okay?",
+    a:
+      "Absolutely — we work around them. If anyone in the home is sensitive to particular products, just let us know and we'll adjust.",
+  },
+  {
+    q: "Can I book a recurring clean?",
+    a:
+      "Yes — weekly, fortnightly and monthly schedules are common for homes and offices. We block the same slot each time wherever possible.",
   },
   {
     q: "How quickly can you start?",
     a:
-      "[TODO: confirm typical lead times — same week / next-day / by appointment.]",
+      "[TODO: confirm typical lead times — same week / next-day / by appointment / X days notice.]",
+  },
+  {
+    q: "What if I'm not happy with the result?",
+    a:
+      "[TODO: confirm satisfaction policy — re-clean within 24h, refund, or however the client wants to phrase it.]",
   },
 ];
 

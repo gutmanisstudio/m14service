@@ -9,11 +9,8 @@ export default function Faq() {
   return (
     <section id="faq" className="bg-off px-5 py-20 md:px-[60px] md:py-[80px]">
       <div className="mx-auto max-w-[760px]">
-        <span className="mb-3 block text-[0.8rem] font-semibold uppercase tracking-[0.2em] text-burgundy-dark">
-          ★ Frequently asked
-        </span>
         <h2 className="mb-9 text-[clamp(1.8rem,2.8vw,2.5rem)] font-extrabold -tracking-[0.02em] text-ink">
-          Common questions
+          Common questions.
         </h2>
 
         <div className="overflow-hidden rounded-2xl border border-line bg-white">

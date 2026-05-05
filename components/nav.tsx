@@ -19,7 +19,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 flex h-[80px] items-center justify-between border-b border-line bg-white/[0.97] px-5 backdrop-blur-xl md:px-[60px]">
+      <nav className="sticky top-0 z-50 flex h-[96px] items-center justify-between border-b border-line bg-white/[0.97] px-5 backdrop-blur-xl md:px-[60px]">
         <a
           href="#top"
           onClick={() => setOpen(false)}
@@ -30,7 +30,7 @@ export default function Nav() {
           <img
             src="/images/logo.jpg"
             alt="M14service"
-            className="h-12 w-12 rounded-md transition-opacity group-hover:opacity-90 md:h-14 md:w-14"
+            className="h-20 w-20 rounded-lg shadow-sm transition-opacity group-hover:opacity-90 md:h-[88px] md:w-[88px]"
           />
         </a>
 
@@ -50,7 +50,7 @@ export default function Nav() {
         <div className="flex items-center gap-2">
           <a
             href="#contact"
-            className="hidden rounded-lg bg-burgundy px-5 py-2.5 text-[0.9rem] font-semibold text-white transition-colors hover:bg-burgundy-dark md:inline-block md:px-6 md:text-[0.94rem]"
+            className="hidden rounded-lg bg-brand px-5 py-2.5 text-[0.9rem] font-semibold text-white transition-colors hover:bg-brand-dark md:inline-block md:px-6 md:text-[0.94rem]"
           >
             Get a quote →
           </a>
@@ -90,10 +90,10 @@ export default function Nav() {
             type="button"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
-            className="fixed inset-0 top-[80px] z-30 bg-ink/40 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 top-[96px] z-30 bg-ink/40 backdrop-blur-sm md:hidden"
           />
           <div
-            className="fixed inset-x-0 top-[80px] z-40 max-h-[calc(100dvh-80px)] overflow-y-auto border-b border-line bg-white md:hidden"
+            className="fixed inset-x-0 top-[96px] z-40 max-h-[calc(100dvh-96px)] overflow-y-auto border-b border-line bg-white md:hidden"
             role="dialog"
             aria-modal="true"
           >
@@ -111,7 +111,7 @@ export default function Nav() {
               <a
                 href="#contact"
                 onClick={() => setOpen(false)}
-                className="mt-4 rounded-lg bg-burgundy px-4 py-4 text-center text-[1.05rem] font-bold text-white transition-colors hover:bg-burgundy-dark"
+                className="mt-4 rounded-lg bg-brand px-4 py-4 text-center text-[1.05rem] font-bold text-white transition-colors hover:bg-brand-dark"
               >
                 Get a quote →
               </a>

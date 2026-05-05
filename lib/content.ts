@@ -25,64 +25,80 @@ export const company = {
 
 export const nav = [
   { href: "#services", label: "Services" },
-  { href: "#solutions", label: "Solutions" },
-  { href: "#reviews", label: "Reviews" },
-  { href: "#faq", label: "FAQ" },
+  { href: "#gallery", label: "Work" },
+  { href: "#workflow", label: "How we work" },
   { href: "#contact", label: "Contact" },
 ];
 
-// Higher-level service categories used by the "products / solutions" component.
-// Image paths point at the bellserviss placeholder set until M14service photos arrive.
+// Six service categories — pulled from M14service's IG marketing
+// (their actual visual marketing leans home / office / hotel, so we drop
+// the bio's factory/warehouse + high-level lines until they confirm).
 export const productCategories = [
   {
-    slug: "carpet-upholstery",
-    title: "Carpet & upholstery",
-    sub: "Deep extraction cleaning",
-    img: "/images/projects/siltumsukni.jpg",
+    slug: "home",
+    title: "Home & apartment",
+    sub: "Regular & one-off",
+    img: "/images/projects/image1.jpg",
     blurb:
-      "Carpets, rugs, sofas, mattresses and soft furnishings — restored to like-new.",
+      "Routine home cleaning and one-off resets — kitchens, bathrooms, living spaces, the lot.",
   },
   {
-    slug: "hard-floors",
-    title: "Hard floor polishing",
-    sub: "Stone, vinyl and wood",
-    img: "/images/projects/pellet-boilers.jpg",
+    slug: "office",
+    title: "Office & company",
+    sub: "Recurring schedules",
+    img: "/images/projects/image2.jpg",
     blurb:
-      "Stripping, sealing and polishing for stone, vinyl and wood floors.",
-  },
-  {
-    slug: "industrial",
-    title: "Factory & warehouse",
-    sub: "Industrial floor care",
-    img: "/images/projects/floor-heating.jpg",
-    blurb:
-      "Production halls, warehouses and large-format facilities.",
-  },
-  {
-    slug: "high-level",
-    title: "High level cleaning",
-    sub: "Hard-to-reach surfaces",
-    img: "/images/projects/manifold.jpg",
-    blurb:
-      "Beams, vents, ceilings and elevated surfaces with proper access kit.",
+      "Daily, weekly or fortnightly office cleans — fitted around your team.",
   },
   {
     slug: "deep-clean",
-    title: "Deep & post-build",
-    sub: "One-off resets",
-    img: "/images/projects/solar.jpg",
+    title: "Deep clean & disinfection",
+    sub: "Top-to-bottom reset",
+    img: "/images/projects/image3.jpg",
     blurb:
-      "Move-out, end-of-tenancy and post-renovation deep cleans.",
+      "A full reset for kitchens, bathrooms and high-touch areas — disinfection included.",
   },
   {
-    slug: "recurring",
-    title: "Recurring cleaning",
-    sub: "Daily / weekly maintenance",
-    img: "/images/projects/rekuperacija.jpg",
+    slug: "move",
+    title: "Move-in / move-out",
+    sub: "End-of-tenancy",
+    img: "/images/projects/image4.jpg",
     blurb:
-      "Office and commercial maintenance schedules tailored to your space.",
+      "End-of-tenancy and handover cleans built around inventory checks.",
+  },
+  {
+    slug: "post-reno",
+    title: "Post-renovation",
+    sub: "After the builders leave",
+    img: "/images/projects/image5.jpg",
+    blurb:
+      "Dust, debris and paint splatter cleared so the space is ready to use.",
+  },
+  {
+    slug: "custom",
+    title: "Custom requests",
+    sub: "Tell us the job",
+    img: "/images/projects/image6.jpg",
+    blurb:
+      "Hotels, short-lets, holiday rentals or anything else — quote on request.",
   },
 ];
+
+// Project gallery — six photos from a recent job M14service shared.
+// TODO: confirm location/scope with client before publishing.
+export const galleryProjects = [
+  { src: "/images/projects/image1.jpg", alt: "M14service recent project — view 1" },
+  { src: "/images/projects/image2.jpg", alt: "M14service recent project — view 2" },
+  { src: "/images/projects/image3.jpg", alt: "M14service recent project — view 3" },
+  { src: "/images/projects/image4.jpg", alt: "M14service recent project — view 4" },
+  { src: "/images/projects/image5.jpg", alt: "M14service recent project — view 5" },
+  { src: "/images/projects/image6.jpg", alt: "M14service recent project — view 6" },
+];
+
+export const beforeAfter = {
+  before: { src: "/images/before1.jpg", alt: "Before M14service cleaning" },
+  after: { src: "/images/after1.jpg", alt: "After M14service cleaning" },
+};
 
 export const services = [
   {

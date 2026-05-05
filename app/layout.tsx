@@ -13,9 +13,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "M14service — Professional cleaning services",
+  title: "M14service — Cleaning service in Manchester",
   description:
-    "M14service — home, office, deep, move-in/out and post-renovation cleaning across the UK.",
+    "M14service — clean beyond the surface. Home, office, deep, move-in/out and post-renovation cleaning in Manchester.",
 };
 
 export default function RootLayout({

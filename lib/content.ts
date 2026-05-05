@@ -5,6 +5,7 @@
 export const company = {
   name: "M14service",
   legalName: "M14service",
+  tagline: "Clean beyond the surface.",
   // TODO: confirm UK trading entity / Companies House number if registered
   regNr: "[TODO: company number]",
   address: "[TODO: service area / base address]",
@@ -26,7 +27,7 @@ export const company = {
 export const nav = [
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
-  { href: "/how-we-work", label: "How we work" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -273,7 +274,7 @@ export const faqs = [
   {
     q: "What areas do you cover?",
     a:
-      "[TODO: confirm coverage area — e.g. Manchester, Greater Manchester, North West, nationwide?]",
+      "Manchester and surrounding areas. Send us your postcode with the job and we'll confirm we can get to you.",
   },
   {
     q: "Are you insured?",

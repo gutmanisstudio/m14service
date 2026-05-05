@@ -7,7 +7,7 @@ import FinalCta from "@/components/final-cta";
 export const metadata: Metadata = {
   title: "Work — M14service",
   description:
-    "Photos from recent M14service jobs — homes, offices and end-of-tenancy cleans across the UK.",
+    "Photos from recent M14service jobs — homes, offices and end-of-tenancy cleans in Manchester.",
 };
 
 export default function WorkPage() {

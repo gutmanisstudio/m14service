@@ -6,7 +6,7 @@ import FinalCta from "@/components/final-cta";
 export const metadata: Metadata = {
   title: "Services — M14service",
   description:
-    "What M14service cleans — home, office, deep clean, move-in/out, post-renovation and custom requests across the UK.",
+    "What M14service cleans — home, office, deep clean, move-in/out, post-renovation and custom requests in Manchester.",
 };
 
 export default function ServicesPage() {

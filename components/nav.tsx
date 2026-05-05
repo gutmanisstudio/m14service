@@ -66,7 +66,7 @@ export default function Nav() {
               </a>
               <span className="hidden items-center gap-1.5 text-white/55 sm:inline-flex">
                 <span className="h-1 w-1 rounded-full bg-sun" />
-                Free quotes · UK-wide
+                Free quotes · Manchester
               </span>
             </div>
             <div className="flex items-center gap-1">
@@ -100,12 +100,13 @@ export default function Nav() {
 
         {/* Main nav */}
         <nav
-          className={`flex items-center justify-between border-b border-line bg-white/[0.97] px-5 backdrop-blur-xl transition-all duration-300 md:px-[60px] ${
+          className={`border-b border-line bg-white/[0.97] backdrop-blur-xl transition-all duration-300 ${
             scrolled
               ? "h-[72px] shadow-[0_8px_28px_-12px_rgba(8,9,26,0.18)]"
               : "h-[88px]"
           }`}
         >
+          <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-between px-5 md:px-[60px]">
           <Link
             href="/"
             onClick={() => setOpen(false)}
@@ -216,6 +217,7 @@ export default function Nav() {
                 />
               </span>
             </button>
+          </div>
           </div>
         </nav>
       </div>

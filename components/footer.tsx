@@ -12,8 +12,8 @@ export default function Footer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/logo.jpg" alt="M14service" className="mb-5 h-12 w-12 rounded-md md:h-14 md:w-14" />
             <p className="max-w-[320px] text-[0.88rem] leading-[1.75] text-white/50">
-              Home, office, post-renovation and end-of-tenancy cleaning across
-              the UK. Fully equipped teams, transparent quotes.
+              Trusted cleaning for homes, apartments, offices and hotels in
+              Manchester. Fully equipped teams, transparent quotes.
             </p>
           </div>
 

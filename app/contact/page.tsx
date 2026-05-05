@@ -6,7 +6,7 @@ import { company } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Contact — M14service",
   description:
-    "Get a quote from M14service — pick a date, send via WhatsApp or email. UK-wide cleaning service.",
+    "Get a quote from M14service — pick a date, send via WhatsApp or email. Cleaning service in Manchester.",
 };
 
 export default function ContactPage() {

@@ -37,19 +37,19 @@ export default function Hero() {
         <div className="max-w-[820px]">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-sky backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-sun" />
-            UK cleaning service
+            Cleaning service · Manchester
           </div>
 
           <h1 className="text-[clamp(2.6rem,6vw,5rem)] font-black leading-[1.02] -tracking-[0.03em] text-white">
-            Where clean meets
+            Clean beyond
             <br />
-            <span className="text-sky">perfection.</span>
+            <span className="text-sky">the surface.</span>
           </h1>
 
           <p className="mt-7 max-w-[560px] text-[1.05rem] leading-[1.7] text-white/75 sm:text-[1.12rem]">
-            Home, office, post-renovation and end-of-tenancy cleaning across
-            the UK. Fully equipped teams, transparent quotes, and a finish you
-            can actually see.
+            Trusted cleaning for homes, apartments, offices and hotels in
+            Manchester. Fully equipped teams, transparent quotes, and a finish
+            you can actually see.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">

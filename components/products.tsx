@@ -30,7 +30,7 @@ export default function Products() {
             </h2>
           </div>
           <p className="max-w-[420px] text-[1rem] leading-[1.7] text-white/60 md:text-right">
-            Homes, offices, hotels and short-lets across the UK. Tell us the
+            Homes, apartments, offices and hotels in Manchester. Tell us the
             space and the job — we&apos;ll come back fast with a quote.
           </p>
         </div>

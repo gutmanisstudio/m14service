@@ -1,6 +1,11 @@
+"use client";
+
 import { company } from "@/lib/content";
+import { useQuote } from "./quote-modal";
 
 export default function Hero() {
+  const { openQuote } = useQuote();
+
   return (
     <section
       id="top"
@@ -48,12 +53,13 @@ export default function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={() => openQuote()}
               className="rounded-[10px] bg-brand px-8 py-4 text-center text-[1rem] font-bold text-white shadow-[0_10px_30px_-8px_rgba(46,49,145,0.6)] transition-colors hover:bg-brand-dark"
             >
               Get a free quote
-            </a>
+            </button>
             <a
               href={`tel:${company.phone.replace(/\s/g, "")}`}
               className="rounded-[10px] border border-white/15 bg-white/[0.06] px-8 py-4 text-center text-[1rem] font-semibold text-white backdrop-blur transition-colors hover:bg-white/12"

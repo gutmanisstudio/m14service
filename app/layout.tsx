@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import LenisProvider from "./lenis-provider";
+import { QuoteProvider } from "@/components/quote-modal";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body className="bg-white text-ink">
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          <QuoteProvider>{children}</QuoteProvider>
+        </LenisProvider>
       </body>
     </html>
   );

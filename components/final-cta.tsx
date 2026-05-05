@@ -1,6 +1,11 @@
+"use client";
+
 import { company } from "@/lib/content";
+import { useQuote } from "./quote-modal";
 
 export default function FinalCta() {
+  const { openQuote } = useQuote();
+
   return (
     <section
       id="contact"
@@ -27,18 +32,30 @@ export default function FinalCta() {
         Tell us the space and the job — we&apos;ll come back fast with a
         no-obligation quote.
       </p>
-      <div className="relative z-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a
-          href={`mailto:${company.email}`}
-          className="w-full max-w-[340px] rounded-[10px] bg-sky px-8 py-3.5 text-[0.96rem] font-bold text-ink transition-colors hover:bg-white sm:w-auto sm:px-9"
+
+      <div className="relative z-10 flex justify-center">
+        <button
+          type="button"
+          onClick={() => openQuote()}
+          className="w-full max-w-[420px] rounded-[10px] bg-sky px-8 py-4 text-[1rem] font-bold text-ink transition-colors hover:bg-white sm:w-auto sm:px-12"
         >
-          {company.email}
-        </a>
+          Get a quote →
+        </button>
+      </div>
+
+      <div className="relative z-10 mt-8 flex flex-col items-center justify-center gap-2 text-[0.9rem] text-white/70 sm:flex-row sm:gap-6">
         <a
           href={`tel:${company.phone.replace(/\s/g, "")}`}
-          className="w-full max-w-[340px] rounded-[10px] border-2 border-white/30 px-8 py-3.5 text-[0.96rem] font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto sm:px-9"
+          className="transition-colors hover:text-white"
         >
           {company.phone}
+        </a>
+        <span className="hidden h-1 w-1 rounded-full bg-white/30 sm:block" />
+        <a
+          href={`mailto:${company.email}`}
+          className="transition-colors hover:text-white"
+        >
+          {company.email}
         </a>
       </div>
     </section>

@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { nav } from "@/lib/content";
+import { useQuote } from "./quote-modal";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const { openQuote } = useQuote();
 
   // Lock body scroll when mobile menu open
   useEffect(() => {
@@ -48,12 +50,13 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <a
-            href="#contact"
+          <button
+            type="button"
+            onClick={() => openQuote()}
             className="hidden rounded-lg bg-brand px-5 py-2.5 text-[0.9rem] font-semibold text-white transition-colors hover:bg-brand-dark md:inline-block md:px-6 md:text-[0.94rem]"
           >
             Get a quote →
-          </a>
+          </button>
 
           <button
             type="button"
@@ -108,13 +111,16 @@ export default function Nav() {
                   {l.label}
                 </a>
               ))}
-              <a
-                href="#contact"
-                onClick={() => setOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  openQuote();
+                }}
                 className="mt-4 rounded-lg bg-brand px-4 py-4 text-center text-[1.05rem] font-bold text-white transition-colors hover:bg-brand-dark"
               >
                 Get a quote →
-              </a>
+              </button>
             </div>
           </div>
         </>

@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { productCategories } from "@/lib/content";
+import { useQuote } from "./quote-modal";
 
 export default function Products() {
+  const { openQuote } = useQuote();
+
   return (
     <section
       id="services"
@@ -33,10 +38,11 @@ export default function Products() {
 
       <div className="relative z-10 mx-auto grid max-w-[1200px] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {productCategories.map((p) => (
-          <a
+          <button
             key={p.slug}
-            href="#contact"
-            className="group relative flex h-[360px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-ink-soft md:h-[400px]"
+            type="button"
+            onClick={() => openQuote(p.slug)}
+            className="group relative flex h-[360px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-ink-soft text-left md:h-[400px]"
           >
             <Image
               src={p.img}
@@ -69,7 +75,7 @@ export default function Products() {
                 <span className="transition group-hover:translate-x-0.5">→</span>
               </span>
             </div>
-          </a>
+          </button>
         ))}
       </div>
     </section>

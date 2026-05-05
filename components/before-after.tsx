@@ -5,7 +5,7 @@ export default function BeforeAfter() {
   return (
     <section
       id="before-after"
-      className="relative overflow-hidden bg-ink px-5 py-20 md:px-[60px] md:py-[88px]"
+      className="relative overflow-hidden bg-ink px-5 py-14 md:px-[60px] md:py-[88px]"
     >
       <div
         aria-hidden

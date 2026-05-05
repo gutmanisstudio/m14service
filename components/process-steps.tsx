@@ -28,7 +28,7 @@ const STEPS = [
 
 export default function ProcessSteps() {
   return (
-    <section className="relative overflow-hidden bg-off px-5 py-20 md:px-[60px] md:py-[88px]">
+    <section className="relative overflow-hidden bg-off px-5 py-14 md:px-[60px] md:py-[88px]">
       <div className="mx-auto mb-10 max-w-[1200px] md:mb-12">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>

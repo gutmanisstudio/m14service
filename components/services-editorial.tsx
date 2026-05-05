@@ -17,17 +17,15 @@ export default function ServicesEditorial() {
           return (
             <article
               key={p.slug}
-              className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-14 ${
-                isFirst ? "py-14 md:py-20" : "border-t border-line py-14 md:py-24"
+              className={`relative grid grid-cols-1 items-center gap-7 lg:grid-cols-12 lg:gap-14 ${
+                isFirst ? "py-10 md:py-20" : "border-t border-line py-10 md:py-24"
               }`}
             >
-              {/* Ghosted background numeral */}
+              {/* Ghosted background numeral — desktop only */}
               <div
                 aria-hidden
-                className={`pointer-events-none absolute select-none text-[clamp(8rem,18vw,15rem)] font-black leading-none tracking-tighter text-brand/[0.05] ${
-                  flipped
-                    ? "right-0 top-2 lg:-right-8"
-                    : "left-0 top-2 lg:-left-8"
+                className={`pointer-events-none absolute hidden select-none text-[clamp(8rem,18vw,15rem)] font-black leading-none tracking-tighter text-brand/[0.05] lg:block ${
+                  flipped ? "lg:-right-8 lg:top-2" : "lg:-left-8 lg:top-2"
                 }`}
               >
                 {idx}

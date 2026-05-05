@@ -14,7 +14,7 @@ export default function PageHero({
   crumbs?: Crumb[];
 }) {
   return (
-    <section className="relative overflow-hidden bg-ink px-5 py-20 md:px-[60px] md:py-[88px]">
+    <section className="relative overflow-hidden bg-ink px-5 py-14 md:px-[60px] md:py-[88px]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

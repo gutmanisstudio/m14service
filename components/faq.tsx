@@ -10,7 +10,7 @@ export default function Faq() {
   const { openQuote } = useQuote();
 
   return (
-    <section id="faq" className="bg-off px-5 py-20 md:px-[60px] md:py-[88px]">
+    <section id="faq" className="bg-off px-5 py-14 md:px-[60px] md:py-[88px]">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
         {/* Left — title + still-have-questions card */}
         <div className="lg:col-span-5">

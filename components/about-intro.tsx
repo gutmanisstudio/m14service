@@ -1,6 +1,6 @@
 export default function AboutIntro() {
   return (
-    <section className="bg-white px-5 py-20 md:px-[60px] md:py-[100px]">
+    <section className="bg-white px-5 py-14 md:px-[60px] md:py-[100px]">
       <div className="mx-auto max-w-[820px]">
         <div className="section-tag mb-4">What we&apos;re about</div>
 

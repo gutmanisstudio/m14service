@@ -9,7 +9,7 @@ export default function FinalCta() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-gradient-to-br from-brand to-ink-soft px-5 py-20 text-center md:px-[60px] md:py-[84px]"
+      className="relative overflow-hidden bg-gradient-to-br from-brand to-ink-soft px-5 py-14 text-center md:px-[60px] md:py-[84px]"
     >
       <div
         aria-hidden

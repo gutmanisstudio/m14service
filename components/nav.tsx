@@ -109,7 +109,14 @@ export default function Nav() {
           <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-between px-5 md:px-[60px]">
           <Link
             href="/"
-            onClick={() => setOpen(false)}
+            onClick={(e) => {
+              setOpen(false);
+              // On the home page, Next/Link no-ops — explicitly scroll to top.
+              if (pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
             className="group flex items-center"
             aria-label="M14service"
           >
@@ -197,21 +204,25 @@ export default function Nav() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              className="-mr-1 flex h-11 w-11 items-center justify-center rounded-lg text-ink transition-colors hover:bg-off md:hidden"
+              className={`flex h-12 w-12 items-center justify-center rounded-lg border transition-colors md:hidden ${
+                open
+                  ? "border-brand bg-brand text-white"
+                  : "border-line bg-white text-ink hover:bg-off"
+              }`}
             >
               <span className="relative block h-4 w-6">
                 <span
-                  className={`absolute left-0 top-0 h-[2px] w-6 rounded bg-current transition-transform duration-300 ${
+                  className={`absolute left-0 top-0 h-[2.5px] w-6 rounded-full bg-current transition-transform duration-300 ${
                     open ? "translate-y-[7px] rotate-45" : ""
                   }`}
                 />
                 <span
-                  className={`absolute left-0 top-[7px] h-[2px] w-6 rounded bg-current transition-opacity duration-200 ${
+                  className={`absolute left-0 top-[7px] h-[2.5px] w-6 rounded-full bg-current transition-opacity duration-200 ${
                     open ? "opacity-0" : "opacity-100"
                   }`}
                 />
                 <span
-                  className={`absolute left-0 top-[14px] h-[2px] w-6 rounded bg-current transition-transform duration-300 ${
+                  className={`absolute left-0 top-[14px] h-[2.5px] w-6 rounded-full bg-current transition-transform duration-300 ${
                     open ? "-translate-y-[7px] -rotate-45" : ""
                   }`}
                 />
@@ -222,54 +233,96 @@ export default function Nav() {
         </nav>
       </div>
 
-      {/* Mobile menu panel + overlay */}
+      {/* Mobile menu panel + overlay. Top offset matches nav height
+          (utility bar 36 + nav 88 = 124 when not scrolled; nav 72 when
+          scrolled — utility bar collapses to 0). */}
       {open && (
         <>
           <button
             type="button"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
-            className="fixed inset-0 top-[88px] z-30 bg-ink/40 backdrop-blur-sm md:hidden"
+            style={{ top: scrolled ? 72 : 124 }}
+            className="fixed inset-0 z-30 bg-ink/40 backdrop-blur-sm md:hidden"
           />
           <div
-            className="fixed inset-x-0 top-[88px] z-40 max-h-[calc(100dvh-88px)] overflow-y-auto border-b border-line bg-white md:hidden"
+            style={{
+              top: scrolled ? 72 : 124,
+              maxHeight: `calc(100dvh - ${scrolled ? 72 : 124}px)`,
+            }}
+            className="fixed inset-x-0 z-40 overflow-y-auto border-b border-line bg-white md:hidden"
             role="dialog"
             aria-modal="true"
           >
-            <div className="flex flex-col gap-1 px-5 py-6">
-              {nav.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="rounded-lg px-4 py-3.5 text-[1.05rem] font-semibold text-ink transition-colors hover:bg-off"
+            <div className="flex flex-col gap-1 px-5 py-5">
+              {nav.map((l) => {
+                const active =
+                  l.href === "/"
+                    ? pathname === "/"
+                    : pathname?.startsWith(l.href);
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-[1.05rem] font-semibold transition-colors ${
+                      active
+                        ? "bg-brand-pale text-brand"
+                        : "text-ink hover:bg-off"
+                    }`}
+                  >
+                    <span>{l.label}</span>
+                    <span aria-hidden className={active ? "text-brand" : "text-soft"}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m9 6 6 6-6 6" />
+                      </svg>
+                    </span>
+                  </Link>
+                );
+              })}
+
+              <div className="mt-3 border-t border-line pt-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openQuote();
+                  }}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-4 text-center text-[1.05rem] font-bold text-white shadow-[0_8px_22px_-10px_rgba(46,49,145,0.7)] transition-colors hover:bg-brand-dark"
                 >
-                  {l.label}
-                </Link>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  openQuote();
-                }}
-                className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-4 text-center text-[1.05rem] font-bold text-white transition-colors hover:bg-brand-dark"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="text-sky">
-                  <path d="M12.04 2.5a9.5 9.5 0 0 0-8.2 14.34L2.5 21.5l4.83-1.27A9.5 9.5 0 1 0 12.04 2.5Z" />
-                </svg>
-                Get a quote →
-              </button>
-              <a
-                href={phoneHref}
-                onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg border-2 border-line px-4 py-3.5 text-[1rem] font-semibold text-ink transition-colors hover:bg-off"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
-                </svg>
-                {company.phone}
-              </a>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="text-sky">
+                    <path d="M12.04 2.5a9.5 9.5 0 0 0-8.2 14.34L2.5 21.5l4.83-1.27A9.5 9.5 0 1 0 12.04 2.5Z" />
+                  </svg>
+                  Get a quote →
+                </button>
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <a
+                    href={phoneHref}
+                    onClick={() => setOpen(false)}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-line px-4 py-3.5 text-[0.92rem] font-semibold text-ink transition-colors hover:bg-off"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
+                    </svg>
+                    Call
+                  </a>
+                  <a
+                    href={waHref}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-line px-4 py-3.5 text-[0.92rem] font-semibold text-ink transition-colors hover:bg-off"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="text-[#25D366]">
+                      <path d="M12.04 2.5a9.5 9.5 0 0 0-8.2 14.34L2.5 21.5l4.83-1.27A9.5 9.5 0 1 0 12.04 2.5Z" />
+                    </svg>
+                    WhatsApp
+                  </a>
+                </div>
+                <p className="mt-3 text-center text-[0.78rem] text-soft">
+                  {company.phone}
+                </p>
+              </div>
             </div>
           </div>
         </>

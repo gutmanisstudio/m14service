@@ -24,10 +24,10 @@ export const company = {
 };
 
 export const nav = [
-  { href: "#services", label: "Services" },
-  { href: "#gallery", label: "Work" },
-  { href: "#workflow", label: "How we work" },
-  { href: "#contact", label: "Contact" },
+  { href: "/services", label: "Services" },
+  { href: "/work", label: "Work" },
+  { href: "/how-we-work", label: "How we work" },
+  { href: "/contact", label: "Contact" },
 ];
 
 // Six service categories — pulled from M14service's IG marketing

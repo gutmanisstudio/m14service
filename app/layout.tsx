@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import LenisProvider from "./lenis-provider";
 import { QuoteProvider } from "@/components/quote-modal";
+import Nav from "@/components/nav";
+import Footer from "@/components/footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,7 +15,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "M14service — Professional cleaning services",
   description:
-    "M14service — carpet, hard floor, upholstery, factory and high-level cleaning. Daily, deep and move-in / move-out cleans across the UK.",
+    "M14service — home, office, deep, move-in/out and post-renovation cleaning across the UK.",
 };
 
 export default function RootLayout({
@@ -25,7 +27,11 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable}`}>
       <body className="bg-white text-ink">
         <LenisProvider>
-          <QuoteProvider>{children}</QuoteProvider>
+          <QuoteProvider>
+            <Nav />
+            <main>{children}</main>
+            <Footer />
+          </QuoteProvider>
         </LenisProvider>
       </body>
     </html>

@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { company, productCategories } from "@/lib/content";
+import QuoteCalendar from "./quote-calendar";
 
 /* -------------------- Context -------------------- */
 
@@ -40,7 +41,6 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
 
   const closeQuote = useCallback(() => setOpen(false), []);
 
-  // Lock body scroll while modal is open
   useEffect(() => {
     if (open) {
       const prev = document.body.style.overflow;
@@ -51,7 +51,6 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     }
   }, [open]);
 
-  // Esc to close
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -74,7 +73,7 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/* -------------------- Helpers -------------------- */
+/* -------------------- Shared form bits -------------------- */
 
 const PROPERTY_SIZES = [
   "Studio",
@@ -88,16 +87,47 @@ const PROPERTY_SIZES = [
 ];
 
 const TIME_SLOTS = [
-  { value: "morning", label: "Morning (8am – 12pm)" },
-  { value: "afternoon", label: "Afternoon (12pm – 5pm)" },
-  { value: "evening", label: "Evening (5pm – 8pm)" },
-  { value: "any", label: "Any time / flexible" },
+  { value: "morning", label: "Morning", sub: "8 – 12" },
+  { value: "afternoon", label: "Afternoon", sub: "12 – 5" },
+  { value: "evening", label: "Evening", sub: "5 – 8" },
+  { value: "any", label: "Flexible", sub: "any time" },
 ];
 
 const phoneDigits = company.phone.replace(/\D/g, "");
-const todayISO = () => new Date().toISOString().slice(0, 10);
 
-function buildMessage(form: QuoteForm): string {
+function formatDate(d: Date | null) {
+  if (!d) return "";
+  return d.toLocaleDateString(undefined, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+type QuoteFormState = {
+  name: string;
+  phone: string;
+  service: string;
+  size: string;
+  postcode: string;
+  date: Date | null;
+  time: string;
+  notes: string;
+};
+
+const EMPTY_FORM: QuoteFormState = {
+  name: "",
+  phone: "",
+  service: "",
+  size: "",
+  postcode: "",
+  date: null,
+  time: "",
+  notes: "",
+};
+
+function buildMessage(form: QuoteFormState): string {
   const lines: string[] = [];
   lines.push(`Hi M14service — I'd like a quote.`);
   lines.push("");
@@ -106,12 +136,14 @@ function buildMessage(form: QuoteForm): string {
   if (form.service) lines.push(`Service: ${form.service}`);
   if (form.size) lines.push(`Property: ${form.size}`);
   if (form.postcode) lines.push(`Postcode: ${form.postcode}`);
-  if (form.date)
+  if (form.date) {
+    const slot = TIME_SLOTS.find((t) => t.value === form.time);
     lines.push(
-      `Preferred date: ${form.date}${
-        form.time ? ` (${form.time})` : ""
+      `Preferred: ${formatDate(form.date)}${
+        slot ? ` (${slot.label}${slot.sub ? ` ${slot.sub}` : ""})` : ""
       }`
     );
+  }
   if (form.notes) {
     lines.push("");
     lines.push(`Notes: ${form.notes}`);
@@ -119,51 +151,50 @@ function buildMessage(form: QuoteForm): string {
   return lines.join("\n");
 }
 
-type QuoteForm = {
-  name: string;
-  phone: string;
-  service: string;
-  size: string;
-  postcode: string;
-  date: string;
-  time: string;
-  notes: string;
-};
+const inputClasses =
+  "w-full rounded-[10px] border border-line bg-white px-4 py-3 text-[0.95rem] text-ink outline-none transition-colors placeholder:text-soft focus:border-brand";
 
-const EMPTY_FORM: QuoteForm = {
-  name: "",
-  phone: "",
-  service: "",
-  size: "",
-  postcode: "",
-  date: "",
-  time: "",
-  notes: "",
-};
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-[0.78rem] font-semibold uppercase tracking-[0.1em] text-mid">
+        {label}
+      </span>
+      {children}
+    </label>
+  );
+}
 
-/* -------------------- Modal -------------------- */
+/* -------------------- QuoteForm — used inline + in modal -------------------- */
 
-function QuoteModal() {
-  const { open, serviceSlug, closeQuote } = useQuote();
-  const [form, setForm] = useState<QuoteForm>(EMPTY_FORM);
+export function QuoteForm({
+  defaultServiceSlug,
+  showCalendar = true,
+  onSubmitted,
+}: {
+  defaultServiceSlug?: string | null;
+  showCalendar?: boolean;
+  onSubmitted?: () => void;
+}) {
+  const [form, setForm] = useState<QuoteFormState>(EMPTY_FORM);
 
-  // Pre-select service when modal is opened from a specific service card
+  // Prefill service when slug provided
   useEffect(() => {
-    if (!open) return;
-    if (serviceSlug) {
-      const match = productCategories.find((p) => p.slug === serviceSlug);
-      setForm((f) => ({ ...f, service: match?.title ?? "" }));
-    } else {
-      setForm((f) => ({ ...f, service: f.service }));
+    if (defaultServiceSlug) {
+      const match = productCategories.find(
+        (p) => p.slug === defaultServiceSlug
+      );
+      if (match) {
+        setForm((f) => ({ ...f, service: match.title }));
+      }
     }
-  }, [open, serviceSlug]);
-
-  // Reset form on close
-  useEffect(() => {
-    if (!open) setForm(EMPTY_FORM);
-  }, [open]);
-
-  if (!open) return null;
+  }, [defaultServiceSlug]);
 
   const message = buildMessage(form);
   const waHref = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
@@ -171,9 +202,179 @@ function QuoteModal() {
     "Quote request"
   )}&body=${encodeURIComponent(message)}`;
 
-  const update = (k: keyof QuoteForm) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const update =
+    (k: Exclude<keyof QuoteFormState, "date">) =>
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >
+    ) =>
+      setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  return (
+    <form
+      className="space-y-4"
+      onSubmit={(e) => e.preventDefault()}
+    >
+      {showCalendar && (
+        <div>
+          <span className="mb-1.5 block text-[0.78rem] font-semibold uppercase tracking-[0.1em] text-mid">
+            Pick a date
+          </span>
+          <QuoteCalendar
+            value={form.date}
+            onChange={(d) => setForm((f) => ({ ...f, date: d }))}
+          />
+        </div>
+      )}
+
+      {showCalendar && (
+        <Field label="Preferred time">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {TIME_SLOTS.map((t) => {
+              const active = form.time === t.value;
+              return (
+                <button
+                  key={t.value}
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, time: t.value }))}
+                  className={`rounded-lg border px-2 py-2.5 text-center text-[0.8rem] font-semibold transition-colors ${
+                    active
+                      ? "border-brand bg-brand text-white"
+                      : "border-line bg-white text-ink hover:border-brand/50"
+                  }`}
+                >
+                  <span className="block">{t.label}</span>
+                  <span
+                    className={`block text-[0.65rem] font-normal ${
+                      active ? "text-white/80" : "text-soft"
+                    }`}
+                  >
+                    {t.sub}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </Field>
+      )}
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Field label="Your name">
+          <input
+            type="text"
+            value={form.name}
+            onChange={update("name")}
+            placeholder="Jane Smith"
+            className={inputClasses}
+          />
+        </Field>
+        <Field label="Phone (optional)">
+          <input
+            type="tel"
+            value={form.phone}
+            onChange={update("phone")}
+            placeholder="07…"
+            className={inputClasses}
+          />
+        </Field>
+      </div>
+
+      <Field label="Service">
+        <select
+          value={form.service}
+          onChange={update("service")}
+          className={inputClasses}
+        >
+          <option value="">Choose a service…</option>
+          {productCategories.map((p) => (
+            <option key={p.slug} value={p.title}>
+              {p.title}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Field label="Property size">
+          <select
+            value={form.size}
+            onChange={update("size")}
+            className={inputClasses}
+          >
+            <option value="">Select…</option>
+            {PROPERTY_SIZES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field label="Postcode">
+          <input
+            type="text"
+            value={form.postcode}
+            onChange={update("postcode")}
+            placeholder="M14 5RT"
+            className={inputClasses}
+          />
+        </Field>
+      </div>
+
+      <Field label="Anything we should know?">
+        <textarea
+          value={form.notes}
+          onChange={update("notes")}
+          rows={3}
+          placeholder="Pets, parking, access, particular stains…"
+          className={`${inputClasses} resize-none`}
+        />
+      </Field>
+
+      <div className="rounded-xl bg-off px-4 py-3 text-[0.78rem] leading-[1.55] text-mid">
+        We&apos;ll reply with a quote and confirm availability for your
+        preferred slot.
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <a
+          href={waHref}
+          target="_blank"
+          rel="noreferrer noopener"
+          onClick={() => {
+            if (onSubmitted) setTimeout(onSubmitted, 100);
+          }}
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#25D366] px-6 py-3.5 text-[0.96rem] font-bold text-white transition-colors hover:bg-[#1FB855]"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M12.04 2.5a9.5 9.5 0 0 0-8.2 14.34L2.5 21.5l4.83-1.27A9.5 9.5 0 1 0 12.04 2.5Zm5.55 13.43c-.24.66-1.4 1.27-1.93 1.32-.51.05-1.16.07-1.87-.12a17 17 0 0 1-1.7-.63 13 13 0 0 1-5-4.41c-.37-.51-.97-1.39-.97-2.65s.66-1.88.9-2.13a.94.94 0 0 1 .68-.32h.49c.16 0 .37-.06.58.44l.8 1.94c.07.13.11.29.02.46-.45.9-.93.86-.7 1.25.95 1.6 1.9 2.16 3.32 2.86.24.12.38.1.52-.06l.6-.7c.16-.18.31-.16.52-.09l1.83.86c.21.1.35.15.4.23.05.09.05.51-.19 1.16Z" />
+          </svg>
+          Send via WhatsApp
+        </a>
+        <a
+          href={mailHref}
+          onClick={() => {
+            if (onSubmitted) setTimeout(onSubmitted, 100);
+          }}
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-[10px] border-2 border-brand bg-white px-6 py-3.5 text-[0.96rem] font-bold text-brand transition-colors hover:bg-brand-pale"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+          Send via email
+        </a>
+      </div>
+    </form>
+  );
+}
+
+/* -------------------- Modal shell -------------------- */
+
+function QuoteModal() {
+  const { open, serviceSlug, closeQuote } = useQuote();
+
+  if (!open) return null;
 
   return (
     <div
@@ -190,7 +391,6 @@ function QuoteModal() {
       />
 
       <div className="relative z-10 max-h-[92dvh] w-full max-w-[560px] overflow-y-auto rounded-t-2xl border border-line bg-white shadow-2xl sm:rounded-2xl">
-        {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-white px-5 py-4 sm:px-6">
           <div>
             <div className="section-tag mb-0.5">Get a quote</div>
@@ -213,186 +413,13 @@ function QuoteModal() {
           </button>
         </div>
 
-        {/* Body */}
-        <form
-          className="space-y-4 px-5 py-5 sm:px-6 sm:py-6"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Your name">
-              <input
-                type="text"
-                value={form.name}
-                onChange={update("name")}
-                placeholder="Jane Smith"
-                className={inputClasses}
-              />
-            </Field>
-            <Field label="Phone (optional)">
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={update("phone")}
-                placeholder="07…"
-                className={inputClasses}
-              />
-            </Field>
-          </div>
-
-          <Field label="Service">
-            <select
-              value={form.service}
-              onChange={update("service")}
-              className={inputClasses}
-            >
-              <option value="">Choose a service…</option>
-              {productCategories.map((p) => (
-                <option key={p.slug} value={p.title}>
-                  {p.title}
-                </option>
-              ))}
-            </select>
-          </Field>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Property size">
-              <select
-                value={form.size}
-                onChange={update("size")}
-                className={inputClasses}
-              >
-                <option value="">Select…</option>
-                {PROPERTY_SIZES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Postcode">
-              <input
-                type="text"
-                value={form.postcode}
-                onChange={update("postcode")}
-                placeholder="M14 5RT"
-                className={inputClasses}
-              />
-            </Field>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Preferred date">
-              <input
-                type="date"
-                min={todayISO()}
-                value={form.date}
-                onChange={update("date")}
-                className={inputClasses}
-              />
-            </Field>
-            <Field label="Preferred time">
-              <select
-                value={form.time}
-                onChange={update("time")}
-                className={inputClasses}
-              >
-                <option value="">Select…</option>
-                {TIME_SLOTS.map((t) => (
-                  <option key={t.value} value={t.label}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-          </div>
-
-          <Field label="Anything we should know?">
-            <textarea
-              value={form.notes}
-              onChange={update("notes")}
-              rows={3}
-              placeholder="Pets, parking, access, particular stains…"
-              className={`${inputClasses} resize-none`}
-            />
-          </Field>
-
-          <div className="rounded-xl bg-off px-4 py-3 text-[0.78rem] leading-[1.55] text-mid">
-            We&apos;ll reply with a quote and confirm availability for your
-            preferred slot. We don&apos;t store anything — your message is sent
-            straight to M14service via WhatsApp or email.
-          </div>
-
-          {/* Send buttons */}
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noreferrer noopener"
-              onClick={() => {
-                // brief delay so the click goes through, then close
-                setTimeout(closeQuote, 100);
-              }}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#25D366] px-6 py-3.5 text-[0.96rem] font-bold text-white transition-colors hover:bg-[#1FB855]"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden
-              >
-                <path d="M12.04 2.5a9.5 9.5 0 0 0-8.2 14.34L2.5 21.5l4.83-1.27A9.5 9.5 0 1 0 12.04 2.5Zm5.55 13.43c-.24.66-1.4 1.27-1.93 1.32-.51.05-1.16.07-1.87-.12a17 17 0 0 1-1.7-.63 13 13 0 0 1-5-4.41c-.37-.51-.97-1.39-.97-2.65s.66-1.88.9-2.13a.94.94 0 0 1 .68-.32h.49c.16 0 .37-.06.58.44l.8 1.94c.07.13.11.29.02.46-.45.9-.93.86-.7 1.25.95 1.6 1.9 2.16 3.32 2.86.24.12.38.1.52-.06l.6-.7c.16-.18.31-.16.52-.09l1.83.86c.21.1.35.15.4.23.05.09.05.51-.19 1.16Z" />
-              </svg>
-              Send via WhatsApp
-            </a>
-            <a
-              href={mailHref}
-              onClick={() => {
-                setTimeout(closeQuote, 100);
-              }}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-[10px] border-2 border-brand bg-white px-6 py-3.5 text-[0.96rem] font-bold text-brand transition-colors hover:bg-brand-pale"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-              >
-                <rect x="3" y="5" width="18" height="14" rx="2" />
-                <path d="m3 7 9 6 9-6" />
-              </svg>
-              Send via email
-            </a>
-          </div>
-        </form>
+        <div className="px-5 py-5 sm:px-6 sm:py-6">
+          <QuoteForm
+            defaultServiceSlug={serviceSlug}
+            onSubmitted={closeQuote}
+          />
+        </div>
       </div>
     </div>
-  );
-}
-
-/* -------------------- Field bits -------------------- */
-
-const inputClasses =
-  "w-full rounded-[10px] border border-line bg-white px-4 py-3 text-[0.95rem] text-ink outline-none transition-colors placeholder:text-soft focus:border-brand";
-
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-[0.78rem] font-semibold uppercase tracking-[0.1em] text-mid">
-        {label}
-      </span>
-      {children}
-    </label>
   );
 }

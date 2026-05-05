@@ -33,6 +33,8 @@ export const nav = [
 // Six service categories — pulled from M14service's IG marketing
 // (their actual visual marketing leans home / office / hotel, so we drop
 // the bio's factory/warehouse + high-level lines until they confirm).
+// TODO: confirm the `included` bullet lists with client — these describe
+// what each service typically covers; client may want to add/remove.
 export const productCategories = [
   {
     slug: "home",
@@ -41,6 +43,12 @@ export const productCategories = [
     img: "/images/projects/image1.jpg",
     blurb:
       "Routine home cleaning and one-off resets — kitchens, bathrooms, living spaces, the lot.",
+    included: [
+      "Kitchen surfaces & appliances",
+      "Bathroom sanitation & descaling",
+      "Bedrooms & living areas",
+      "Floors throughout — vacuum & mop",
+    ],
   },
   {
     slug: "office",
@@ -48,7 +56,13 @@ export const productCategories = [
     sub: "Recurring schedules",
     img: "/images/projects/image2.jpg",
     blurb:
-      "Daily, weekly or fortnightly office cleans — fitted around your team.",
+      "Daily, weekly or fortnightly office cleans — fitted around your team and your hours.",
+    included: [
+      "Workstations, desks & high-touch surfaces",
+      "Kitchen / break areas",
+      "Bathrooms & washrooms",
+      "Floors, vacuuming & bins",
+    ],
   },
   {
     slug: "deep-clean",
@@ -57,6 +71,12 @@ export const productCategories = [
     img: "/images/projects/image3.jpg",
     blurb:
       "A full reset for kitchens, bathrooms and high-touch areas — disinfection included.",
+    included: [
+      "Top-to-bottom kitchen — inside oven & fridge",
+      "Bathroom descaling & grout detail",
+      "Surface disinfection throughout",
+      "Skirting boards, doors & switches",
+    ],
   },
   {
     slug: "move",
@@ -64,7 +84,13 @@ export const productCategories = [
     sub: "End-of-tenancy",
     img: "/images/projects/image4.jpg",
     blurb:
-      "End-of-tenancy and handover cleans built around inventory checks.",
+      "End-of-tenancy and handover cleans built around inventory checks. Deposit-friendly finish.",
+    included: [
+      "Full end-of-tenancy detail",
+      "Inside cupboards, drawers & wardrobes",
+      "Skirting boards & door frames",
+      "Inventory-ready presentation",
+    ],
   },
   {
     slug: "post-reno",
@@ -72,7 +98,13 @@ export const productCategories = [
     sub: "After the builders leave",
     img: "/images/projects/image5.jpg",
     blurb:
-      "Dust, debris and paint splatter cleared so the space is ready to use.",
+      "Construction dust, paint splatter and plaster cleared so the space is ready to use.",
+    included: [
+      "Fine construction dust removal",
+      "Paint splatter & plaster cleanup",
+      "Window frames & sills",
+      "Final detail clean throughout",
+    ],
   },
   {
     slug: "custom",
@@ -80,7 +112,13 @@ export const productCategories = [
     sub: "Tell us the job",
     img: "/images/projects/image6.jpg",
     blurb:
-      "Hotels, short-lets, holiday rentals or anything else — quote on request.",
+      "Hotels, short-lets, holiday rentals or anything not on this list. Quote on request.",
+    included: [
+      "Hotel & short-let turnaround",
+      "Holiday rental changeovers",
+      "One-off & event cleans",
+      "Anything not listed above — just ask",
+    ],
   },
 ];
 

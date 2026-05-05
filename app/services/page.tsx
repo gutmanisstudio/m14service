@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/page-hero";
-import Products from "@/components/products";
+import ServicesEditorial from "@/components/services-editorial";
 import FinalCta from "@/components/final-cta";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function ServicesPage() {
         subtitle="Six things we do most. If yours isn't on the list, ask — we cover custom and one-off jobs too."
         crumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
       />
-      <Products />
+      <ServicesEditorial />
       <FinalCta />
     </>
   );
